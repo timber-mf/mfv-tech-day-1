@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/app/lib/providers";
 import { openSans } from "@/app/lib/theme";
+import { ColorSchemeScript } from "@mantine/core";
 
 import "./globals.css";
 import "@mantine/core/styles.css";
@@ -17,6 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={openSans.className}>
         <Providers>{children}</Providers>
       </body>

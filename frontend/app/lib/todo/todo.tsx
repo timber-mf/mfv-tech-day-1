@@ -41,7 +41,7 @@ export function Provider(props: { children: React.ReactNode }) {
     todos,
     addTodo,
     setChecked,
-    removeTodo
+    removeTodo,
   };
   return <Context.Provider value={service}>{props.children}</Context.Provider>;
 }

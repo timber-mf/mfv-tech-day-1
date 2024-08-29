@@ -1,0 +1,11 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get?generated-in=IntelliJ IDEA
+
+###
+POST https://examples.http-client.intellij.net/post
+Accept: application/json
+Content-Type: application/json
+
+{
+  "message": "Hello World"
+}

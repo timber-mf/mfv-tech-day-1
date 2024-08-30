@@ -1,8 +1,8 @@
 package vn.mfv.booking.service
 
-import org.example.vn.mfv.booking.repository.SeatRepository
 import org.springframework.stereotype.Service
 import vn.mfv.booking.entity.Seat
+import vn.mfv.booking.repository.SeatRepository
 
 @Service
 class SeatService(private val seatRepository: SeatRepository) {

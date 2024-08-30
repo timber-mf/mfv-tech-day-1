@@ -5,4 +5,5 @@ export const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const theme = createTheme({
   fontFamily: openSans.style.fontFamily,
+  primaryColor: "orange",
 });

@@ -101,14 +101,17 @@ export default function SeatBookingForm({
       </Grid>
       <Space h="md" />
       {err ? (
-        <Alert
-          variant="light"
-          color="red"
-          title="Not success"
-          icon={<IconInfoCircle />}
-        >
-          {err}
-        </Alert>
+        <>
+          <Alert
+            variant="light"
+            color="red"
+            title="Error"
+            icon={<IconInfoCircle />}
+          >
+            {err}
+          </Alert>
+          <Space h="md" />
+        </>
       ) : null}
       <Group justify="flex-end">
         <Button onClick={onSubmit}>Save</Button>

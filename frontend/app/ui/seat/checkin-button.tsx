@@ -14,6 +14,7 @@ export default function CheckinButton({ seatId }: { seatId: string }) {
       const res = await fetch(
         `https://api.paat.party/api/seats/checkin?seatId=${seatId}&userId=1`,
         {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${service?.user?.token}`,
           },

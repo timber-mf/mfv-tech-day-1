@@ -10,6 +10,7 @@ import {
   Text,
   NavLink,
 } from "@mantine/core";
+import "@mantine/dates/styles.css";
 import { useDisclosure } from "@mantine/hooks";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -69,7 +70,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           leftSection={<IconHome2 size="1.3rem" stroke={1.5} />}
         />
         <NavLink
-          href="/"
+          href="/seat-booking"
           label="Seat Booking"
           leftSection={<IconHandClick size="1.3rem" stroke={1.5} />}
         />

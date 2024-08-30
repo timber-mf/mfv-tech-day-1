@@ -1,4 +1,4 @@
-package org.example.exception
+package vn.mfv.booking.exception
 
 class BusinessException(val code: String, message: String) : RuntimeException(message) {
     constructor(code: String, message: String, cause: Throwable) : this(code, message) {

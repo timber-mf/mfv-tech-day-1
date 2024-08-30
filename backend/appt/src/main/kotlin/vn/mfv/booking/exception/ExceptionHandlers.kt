@@ -1,4 +1,4 @@
-package org.example.exception
+package vn.mfv.booking.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,7 +13,7 @@ class RestExceptionHandler {
     fun handleBusinessException(ex: BusinessException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             code = ex.code,
-            message = ex.message ?: "Business exception occurred"
+            message = ex.message ?: "Business vn.mfv.booking.exception occurred"
         )
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }

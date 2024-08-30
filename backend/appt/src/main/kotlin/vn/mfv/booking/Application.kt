@@ -1,4 +1,4 @@
-package org.example
+package vn.mfv.booking
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

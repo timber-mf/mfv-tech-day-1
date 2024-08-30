@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-docker
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+#  app:
+#    image: openjdk:17
+#    container_name: spring_app
+#    depends_on:
+#      - mysql
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - .:/app
+#    working_dir: /app
+#    command: ./gradlew bootRun
+
+volumes:
+  mysql_data:

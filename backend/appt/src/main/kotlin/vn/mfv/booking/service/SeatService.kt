@@ -38,4 +38,24 @@ class SeatService(
         //delete all seats
         seatRepository.deleteAll()
     }
+
+    fun checkIn(seatId: Long, userId: Long): Boolean {
+        val booking = bookingRepository.findBySeatIdAndUserIdAndCheckedInFalse(seatId, userId)
+        return if (booking != null && booking.startTime.isBefore(LocalDateTime.now().plusMinutes(10))) {
+            booking.checkedIn = true
+            booking.checkInTime = LocalDateTime.now()
+            bookingRepository.save(booking)
+            true
+        } else {
+            false
+        }
+    }
+
+    fun releaseUnCheckedInSeats() {
+        val now = LocalDateTime.now()
+        val bookings = bookingRepository.findByCheckedInFalseAndStartTimeBefore(now.minusMinutes(10))
+        bookings.forEach { booking ->
+            bookingRepository.delete(booking)
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package org.example.vn.mfv.booking.entity
+package mfv.booking.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

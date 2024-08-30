@@ -1,7 +1,7 @@
 package vn.mfv.booking.entity
 
 import jakarta.persistence.*
-import org.example.vn.mfv.booking.entity.User
+import mfv.booking.entity.User
 import java.time.LocalDateTime
 
 @Entity
@@ -15,7 +15,7 @@ data class Booking(
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    val user: org.example.vn.mfv.booking.entity.User,
+    val user: User,
 
     val startTime: LocalDateTime,
     val endTime: LocalDateTime

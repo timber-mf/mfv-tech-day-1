@@ -63,13 +63,13 @@ export function Provider(props: { children: React.ReactNode }) {
 
   const postAuth = React.useCallback(
     async (url: string, data: any) => {
-      const res = await fetch(url, {
+      const params = new URLSearchParams(data);
+      const res = await fetch(url + `?${params.toString()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user?.token}`,
         },
-        body: JSON.stringify(data),
       });
 
       const json = await res.json();

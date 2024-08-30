@@ -1,7 +1,6 @@
 package vn.mfv.booking.entity
 
 import jakarta.persistence.*
-import org.example.vn.mfv.booking.entity.RenewalFrequency
 import java.time.LocalDateTime
 
 @Entity

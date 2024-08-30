@@ -20,6 +20,7 @@ import {
   IconHome2,
   IconHandClick,
   IconUserCheck,
+  IconQrcode
 } from "@tabler/icons-react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -77,6 +78,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           href="/"
           label="Check-In"
           leftSection={<IconUserCheck size="1.3rem" stroke={1.5} />}
+        />
+        <NavLink
+          href="/qr-list"
+          label="QR List"
+          leftSection={<IconQrcode size="1.3rem" stroke={1.5} />}
         />
       </AppShell.Navbar>
       <AppShell.Main>{children}</AppShell.Main>

@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
-import { IconChevronRight } from "@tabler/icons-react";
-import { Group, Avatar, Text, UnstyledButton } from "@mantine/core";
+import { Avatar, UnstyledButton } from "@mantine/core";
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   image: string;

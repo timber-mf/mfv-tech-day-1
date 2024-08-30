@@ -6,6 +6,8 @@ import { auth } from "@/app/lib/auth";
 
 import "./globals.css";
 import "@mantine/core/styles.css";
+import '@mantine/dates/styles.css';
+
 import SignIn from "@/app/ui/sign-in";
 import AppLayout from "@/app/ui/app-layout";
 

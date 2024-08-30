@@ -8,7 +8,7 @@ import {
   AppShell,
   Group,
 } from "@mantine/core";
-import { IconBrandGithub } from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 
@@ -25,15 +25,26 @@ export default function SignIn() {
           <Space h="lg" />
           <Space h="lg" />
           <Center>
-            <Button
-              type="submit"
-              size="md"
-              color="black"
-              leftSection={<IconBrandGithub size={24} />}
-              onClick={() => signIn("github")}
-            >
-              Sign in with GitHub
-            </Button>
+            <Group>
+              <Button
+                type="submit"
+                size="md"
+                color="#4285F4"
+                leftSection={<IconBrandGoogle size={24} />}
+                onClick={() => signIn("google")}
+              >
+                Sign in with Google
+              </Button>
+              <Button
+                type="submit"
+                size="md"
+                color="black"
+                leftSection={<IconBrandGithub size={24} />}
+                onClick={() => signIn("github")}
+              >
+                Sign in with GitHub
+              </Button>
+            </Group>
           </Center>
         </Container>
       </AppShell.Main>

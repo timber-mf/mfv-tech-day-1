@@ -3,6 +3,9 @@ package vn.mfv.booking.repository
 
 import vn.mfv.booking.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
-import vn.mfv.booking.entity.Seat
+import org.springframework.stereotype.Repository
 
-interface UserRepository : JpaRepository<User, Long>
+@Repository
+interface UserRepository : JpaRepository<User, Long> {
+    fun getUserByEmail(email: String): User?
+}

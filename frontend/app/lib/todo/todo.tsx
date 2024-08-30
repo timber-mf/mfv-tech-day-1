@@ -13,6 +13,7 @@ export type Service = {
   readonly removeTodo: (id: string) => void;
   readonly user: User | null;
   readonly setUser: (user: User | null) => void;
+  readonly postAuth: (url: string, data: any) => Promise<void>;
 };
 
 export type User = {
@@ -50,6 +51,22 @@ export function Provider(props: { children: React.ReactNode }) {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
+  const postAuth = React.useCallback(
+    async (url: string, data: any) => {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      return res.json();
+    },
+    [user],
+  );
+
   const service: Service = {
     todos,
     addTodo,
@@ -64,6 +81,7 @@ export function Provider(props: { children: React.ReactNode }) {
         localStorage.removeItem("user");
       }
     },
+    postAuth,
   };
   return <Context.Provider value={service}>{props.children}</Context.Provider>;
 }

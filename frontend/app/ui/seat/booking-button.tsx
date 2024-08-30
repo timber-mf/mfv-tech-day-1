@@ -13,7 +13,7 @@ export default function BookingButton ({ seatId}: {
     <>
       <Button onClick={open}>Book</Button>
       <Modal opened={opened} onClose={close} title={`Seat ${seatId}`}>
-        <SeatBookingForm />
+        <SeatBookingForm onSuccess={close}/>
       </Modal>
     </>
   )

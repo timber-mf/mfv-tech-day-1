@@ -11,11 +11,14 @@ type FormBooking = {
   toTime: string;
 };
 
-export default function SeatBookingForm() {
+export default function SeatBookingForm({ onSuccess }: {
+  onSuccess: () => void;
+}) {
   const { control, handleSubmit, reset } = useForm<FormBooking>();
 
   const onSubmit = handleSubmit((data) => {
     console.log(data)
+    onSuccess();
   })
   return <>
     <Grid>
@@ -23,6 +26,7 @@ export default function SeatBookingForm() {
         <Controller
           control={control}
           name="bookingDate"
+          defaultValue={new Date()}
           render={({ field }) => (
             <DateInput
               label="Booking date"

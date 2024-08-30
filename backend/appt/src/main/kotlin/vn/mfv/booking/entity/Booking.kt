@@ -1,7 +1,7 @@
 package vn.mfv.booking.entity
 
 import jakarta.persistence.*
-import mfv.booking.entity.User
+import org.example.vn.mfv.booking.entity.RenewalFrequency
 import java.time.LocalDateTime
 
 @Entity
@@ -18,7 +18,11 @@ data class Booking(
     val user: User,
 
     val startTime: LocalDateTime,
-    val endTime: LocalDateTime
+    val endTime: LocalDateTime,
+
+    @Enumerated(EnumType.STRING)
+    val renewalFrequency: RenewalFrequency? = null
+
 ) {
     constructor() : this(id = 0, seat = Seat(), user = User(), startTime = LocalDateTime.now(), endTime = LocalDateTime.now())
 }

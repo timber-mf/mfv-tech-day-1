@@ -1,6 +1,5 @@
 package vn.mfv.booking.config
 
-import jwt.CustomAuthenticationSuccessHandler
 import jwt.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,11 +30,6 @@ class SecurityConfig {
                 it.defaultSuccessUrl("/home", true)
             }
         return http.build()
-    }
-
-    @Bean
-    fun customAuthenticationSuccessHandler(): CustomAuthenticationSuccessHandler {
-        return CustomAuthenticationSuccessHandler()
     }
 
     @Bean

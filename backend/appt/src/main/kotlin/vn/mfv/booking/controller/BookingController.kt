@@ -1,5 +1,6 @@
 package vn.mfv.booking.controller
 
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,4 +46,7 @@ class BookingController(private val bookingService: BookingService) {
         @RequestParam endTime: LocalDateTime,
         @RequestParam(required = false) renewalFrequency: RenewalFrequency?
     ): Booking? = bookingService.bookSeat(seatId, userId, startTime, endTime, renewalFrequency)
+
+    @DeleteMapping("/{id}")
+    fun deleteBooking(@PathVariable id: Long): Boolean = bookingService.deleteBooking(id)
 }

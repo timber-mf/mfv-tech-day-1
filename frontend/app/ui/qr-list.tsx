@@ -1,11 +1,26 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Container, Grid, Card, Text, Center } from "@mantine/core";
 import { QRCodeSVG } from "qrcode.react";
 import { useRouter } from "next/navigation";
 
 export default function SeatList() {
-  const seats = Array.from({ length: 50 }, (_, i) => i + 1);
+  const [seats, setSeats] = useState<number[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchSeats() {
+      try {
+        const response = await fetch("http://localhost:8080/api/seats");
+        const data = await response.json();
+        setSeats(data);
+      } catch (error) {
+        console.error("Error fetching seats:", error);
+      }
+    }
+
+    fetchSeats();
+  }, []);
 
   return (
     <Container>

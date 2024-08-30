@@ -1,6 +1,6 @@
 "use client";
 
-import { DateTimePicker, DateValue } from "@mantine/dates";
+import { DateInput, DateValue } from "@mantine/dates";
 import { Button } from "@mantine/core";
 
 export interface SeatBookingControlBarProps {
@@ -28,7 +28,7 @@ export default function SeatBookingControlBar(
     <div>
       <div className="flex gap-5 items-end">
         <div className="w-1/3">
-          <DateTimePicker
+          <DateInput
             label="Start Time"
             placeholder="Pick start time"
             value={startDate}
@@ -37,7 +37,7 @@ export default function SeatBookingControlBar(
         </div>
 
         <div className="w-1/3">
-          <DateTimePicker
+          <DateInput
             label="End Time"
             placeholder="Pick end time"
             value={endDate}

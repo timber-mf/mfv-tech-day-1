@@ -10,6 +10,7 @@ import Seat, { SeatStatus } from "@/app/ui/seat";
 import SeatBookingControlBar from "@/app/ui/seat-booking-control-bar";
 import { Button } from "@mantine/core";
 import { useState, useEffect } from "react";
+import { Todo } from "@/app/lib/todo";
 
 // enum class SeatStatus {
 //   AVAILABLE, BOOKED
@@ -38,14 +39,14 @@ interface SeatFromApi {
 }
 
 const seatsFromApi = [
-  { id: "1", name: "1", qrCode: "QR1", status: "AVAILABLE" },
-  { id: "2", name: "2", qrCode: "QR2", status: "BOOKED" },
-  { id: "3", name: "3", qrCode: "QR2", status: "BOOKED" },
-  { id: "4", name: "4", qrCode: "QR2", status: "BOOKED" },
-  { id: "5", name: "5", qrCode: "QR2", status: "BOOKED" },
-  { id: "6", name: "6", qrCode: "QR2", status: "BOOKED" },
-  { id: "7", name: "7", qrCode: "QR2", status: "BOOKED" },
-  { id: "8", name: "8", qrCode: "QR2", status: "BOOKED" },
+  // { id: "1", name: "1", qrCode: "QR1", status: "AVAILABLE" },
+  // { id: "2", name: "2", qrCode: "QR2", status: "BOOKED" },
+  // { id: "3", name: "3", qrCode: "QR2", status: "BOOKED" },
+  // { id: "4", name: "4", qrCode: "QR2", status: "BOOKED" },
+  // { id: "5", name: "5", qrCode: "QR2", status: "BOOKED" },
+  // { id: "6", name: "6", qrCode: "QR2", status: "BOOKED" },
+  // { id: "7", name: "7", qrCode: "QR2", status: "BOOKED" },
+  // { id: "8", name: "8", qrCode: "QR2", status: "BOOKED" },
 ];
 
 function mapSeatsWithStatus(
@@ -713,29 +714,52 @@ const Controls = () => {
   );
 };
 
+function formatDate(date: Date): string {
+  return date.toISOString().split(".")[0];
+}
+
 export default function OfficeMap() {
-  const [desks, setDesks] = useState(mapSeatsWithStatus(DESKS, seatsFromApi));
+  const [desks, setDesks] = useState(mapSeatsWithStatus(DESKS, []));
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const service = Todo.useService();
 
   const fetchData = async (startDate?: Date, endDate?: Date) => {
-    const from = startDate ? startDate.toISOString() : new Date().toISOString();
-    const to = endDate ? endDate.toISOString() : new Date().toISOString();
+    const from = startDate ? formatDate(startDate) : formatDate(new Date());
+    const to = endDate ? formatDate(endDate) : formatDate(new Date());
 
     try {
-      const res = await fetch(`${apiURL}?from=${from}&to=${to}`);
-      console.log(res.json);
+      const res = await fetch(`${apiURL}?from=${from}&to=${to}`, {
+        headers: {
+          Authorization: `Bearer ${service?.user?.token}`,
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log(mapSeatsWithStatus(DESKS, data));
+        setDesks(
+          mapSeatsWithStatus(
+            DESKS,
+            data?.map((item: any) => ({
+              ...item,
+              name: item?.name?.trim(),
+            })),
+          ),
+        );
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (service?.user?.token) {
+      fetchData();
+    }
+  }, [service?.user?.token]);
 
   const handleSearch = async () => {
-    console.log(startDate, endDate);
+    fetchData(startDate, endDate);
   };
 
   return (

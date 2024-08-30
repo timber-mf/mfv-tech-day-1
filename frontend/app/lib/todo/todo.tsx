@@ -23,9 +23,12 @@ export type User = {
 
 export const Context = React.createContext<Service | null>(null);
 
+const userstr = localStorage.getItem("user");
+const userLocal: any = userstr ? JSON.parse(userstr) : null;
+
 export function Provider(props: { children: React.ReactNode }) {
   const [todos, setTodos] = React.useState<readonly Todo[]>([]);
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(userLocal);
 
   const addTodo = (todo: Todo) => {
     setTodos((prev) => [todo, ...prev]);
@@ -52,7 +55,14 @@ export function Provider(props: { children: React.ReactNode }) {
     setChecked,
     removeTodo,
     user,
-    setUser,
+    setUser: (user) => {
+      setUser(user);
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        localStorage.removeItem("user");
+      }
+    },
   };
   return <Context.Provider value={service}>{props.children}</Context.Provider>;
 }

@@ -1,4 +1,4 @@
-package org.example.vn.mfv.booking.repository
+package mfv.booking.repository
 
 
 import org.springframework.data.jpa.repository.JpaRepository

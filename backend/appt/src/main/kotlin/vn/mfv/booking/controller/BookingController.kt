@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import vn.mfv.booking.entity.Booking
+import vn.mfv.booking.entity.RenewalFrequency
 import vn.mfv.booking.service.BookingService
 import java.time.LocalDateTime
 
@@ -41,6 +42,7 @@ class BookingController(private val bookingService: BookingService) {
         @RequestParam seatId: Long,
         @RequestParam userId: Long,
         @RequestParam startTime: LocalDateTime,
-        @RequestParam endTime: LocalDateTime
-    ): Booking? = bookingService.bookSeat(seatId, userId, startTime, endTime)
+        @RequestParam endTime: LocalDateTime,
+        @RequestParam(required = false) renewalFrequency: RenewalFrequency?
+    ): Booking? = bookingService.bookSeat(seatId, userId, startTime, endTime, renewalFrequency)
 }

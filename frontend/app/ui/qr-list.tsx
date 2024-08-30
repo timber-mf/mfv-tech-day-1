@@ -26,18 +26,20 @@ export default function SeatList() {
     <Container>
       <Grid>
         {seats.map((seat) => {
-          const seatLink = `http://localhost:3000/seat/${seat}`;
+          const seatLink = `https://mfv.paat.party/seat/${seat}`;
           return (
             <Grid.Col key={seat} span={4}>
-              <Card shadow="sm" padding="lg" onClick={() => {
-                router.push(`/seat/${seat}`);
-              }}>
+              <Card
+                shadow="sm"
+                padding="lg"
+                onClick={() => {
+                  router.push(`/seat/${seat}`);
+                }}
+              >
                 <Center>
                   <QRCodeSVG value={seatLink} />
                 </Center>
-                <Text mt="md">
-                  Seat {seat}
-                </Text>
+                <Text mt="md">Seat {seat}</Text>
               </Card>
             </Grid.Col>
           );

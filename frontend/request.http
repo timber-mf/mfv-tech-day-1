@@ -9,3 +9,25 @@ Content-Type: application/json
 {
   "message": "Hello World"
 }
+
+
+###
+POST https://api.paat.party/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "billy@email.com",
+  "password": "abc"
+}
+
+
+### login api
+POST https://api.paat.party/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "billy@email.com",
+  "password": "abc"
+}

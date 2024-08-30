@@ -7,10 +7,16 @@ import {
   Space,
   AppShell,
   Group,
+  TextInput,
 } from "@mantine/core";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+
+type LoginForm = {
+  username: string;
+  password: string;
+};
 
 export default function SignIn() {
   return (
@@ -22,6 +28,16 @@ export default function SignIn() {
       </AppShell.Header>
       <AppShell.Main>
         <Container>
+          <Space h="lg" />
+          <Center className={"flex-col"}>
+            <TextInput label="Username" w="300px" />
+            <Space h="xs" />
+            <TextInput label="Password" w="300px" />
+            <Space h="lg" />
+            <Button variant="outline" color="black" w="300px">
+              Login
+            </Button>
+          </Center>
           <Space h="lg" />
           <Space h="lg" />
           <Center>

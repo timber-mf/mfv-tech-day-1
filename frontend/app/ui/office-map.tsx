@@ -700,11 +700,12 @@ const DESKS = [
   },
 ];
 
+const apiURL = "https://api.paat.party/api/seats";
 const Controls = () => {
   const { zoomIn, zoomOut, resetTransform } = useControls();
 
   return (
-    <div className="absolute z-3 right-[150px] top-[60px] flex gap-2">
+    <div className="absolute z-3 right-[150px] top-[200px] flex gap-2">
       <Button onClick={() => zoomIn()}>+</Button>
       <Button onClick={() => zoomOut()}>-</Button>
       <Button onClick={() => resetTransform()}>x</Button>
@@ -714,34 +715,50 @@ const Controls = () => {
 
 export default function OfficeMap() {
   const [desks, setDesks] = useState(mapSeatsWithStatus(DESKS, seatsFromApi));
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  // useEffect(() => {
-  //
-  // }, []);
+  const fetchData = async (startDate?: Date, endDate?: Date) => {
+    const from = startDate ? startDate.toISOString() : new Date().toISOString();
+    const to = endDate ? endDate.toISOString() : new Date().toISOString();
 
-  console.log(desks);
+    try {
+      const res = await fetch(`${apiURL}?from=${from}&to=${to}`);
+      console.log(res.json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleSearch = async () => {
+    console.log(startDate, endDate);
+  };
 
   return (
     <div>
       <div>
-        <SeatBookingControlBar />
+        <SeatBookingControlBar
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          onSearch={handleSearch}
+        />
       </div>
       <TransformWrapper initialScale={2}>
         {() => (
-          <div className="relative">
+          <div>
             <TransformComponent>
-              <div
-                className="office-map-container"
-                style={{ position: "relative" }}
-              >
+              <div className="mt-5 relative border rounded border-gray-500 w-[1200px] overflow-x-auto">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/map.jpg"
                   alt="Office Map"
-                  className="office-map"
-                  style={{
-                    width: "1000px",
-                  }}
+                  className="office-map w-[1000px]"
                 />
                 {desks.map((row) => (
                   <div

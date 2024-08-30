@@ -1,25 +1,51 @@
 "use client";
 
-import { DateTimePicker } from "@mantine/dates";
+import { DateTimePicker, DateValue } from "@mantine/dates";
 import { Button } from "@mantine/core";
 
-export interface SeatBookingControlBarProps {}
+export interface SeatBookingControlBarProps {
+  startDate: Date;
+  setStartDate: (date: Date) => void;
+  endDate: Date;
+  setEndDate: (date: Date) => void;
+  onSearch: () => Promise<void>;
+}
 
 export default function SeatBookingControlBar(
-  _props: SeatBookingControlBarProps,
+  props: SeatBookingControlBarProps,
 ) {
+  const { startDate, setStartDate, endDate, setEndDate, onSearch } = props;
+
+  const handleStartDateChange = (date: DateValue) => {
+    setStartDate(date as Date);
+  };
+
+  const handleEndDateChange = (date: DateValue) => {
+    setEndDate(date as Date);
+  };
+
   return (
     <div>
       <div className="flex gap-5 items-end">
         <div className="w-1/3">
-          <DateTimePicker label="Start Time" placeholder="Pick start time" />
+          <DateTimePicker
+            label="Start Time"
+            placeholder="Pick start time"
+            value={startDate}
+            onChange={handleStartDateChange}
+          />
         </div>
 
         <div className="w-1/3">
-          <DateTimePicker label="End Time" placeholder="Pick end time" />
+          <DateTimePicker
+            label="End Time"
+            placeholder="Pick end time"
+            value={endDate}
+            onChange={handleEndDateChange}
+          />
         </div>
 
-        <Button>Search</Button>
+        <Button onClick={() => onSearch()}>Search</Button>
       </div>
     </div>
   );

@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import * as sea from "node:sea";
+
 export type SeatStatus = "AVAILABLE" | "BOOKED" | "NOT_INITIALIZED";
 
 export interface SeatProps {
@@ -14,6 +17,7 @@ export interface SeatProps {
 
 export default function Seat(props: SeatProps) {
   const { id, seatNumber, width, height, status = "NOT_INITIALIZED" } = props;
+  const router = useRouter();
 
   const getClassNames = () => {
     switch (status) {
@@ -28,6 +32,11 @@ export default function Seat(props: SeatProps) {
     }
   };
 
+  const handleClick = () => {
+    if (status === "NOT_INITIALIZED") return;
+    router.push(`/seat/${seatNumber}`);
+  };
+
   return (
     <button
       key={id}
@@ -36,6 +45,7 @@ export default function Seat(props: SeatProps) {
         width,
         height,
       }}
+      onClick={handleClick}
     >
       {seatNumber}
     </button>

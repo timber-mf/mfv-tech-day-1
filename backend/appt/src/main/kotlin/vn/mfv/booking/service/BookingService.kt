@@ -1,5 +1,6 @@
 package vn.mfv.booking.service
 
+import vn.mfv.booking.entity.RenewalFrequency
 import vn.mfv.booking.repository.SeatRepository
 import org.springframework.stereotype.Service
 import vn.mfv.booking.entity.Booking
@@ -21,11 +22,11 @@ class BookingService(private val bookingRepository: BookingRepository, private v
         return bookings.isEmpty()
     }
 
-    fun bookSeat(seatId: Long, userId: Long, startTime: LocalDateTime, endTime: LocalDateTime): Booking? {
+    fun bookSeat(seatId: Long, userId: Long, startTime: LocalDateTime, endTime: LocalDateTime, renewalFrequency: RenewalFrequency? = null): Booking? {
         if (isSeatAvailable(seatId, startTime, endTime)) {
             val seat = seatRepository.findById(seatId).orElse(null) ?: return null
             val user = userRepository.findById(userId).orElse(null) ?: return null
-            val booking = Booking(seat = seat, user = user, startTime = startTime, endTime = endTime)
+            val booking = Booking(seat = seat, user = user, startTime = startTime, endTime = endTime, renewalFrequency = renewalFrequency)
             return bookingRepository.save(booking)
         }
         return null

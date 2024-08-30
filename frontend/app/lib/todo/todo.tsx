@@ -19,6 +19,7 @@ export type User = {
   name: string;
   email: string;
   department: string;
+  token: string;
 };
 
 export const Context = React.createContext<Service | null>(null);

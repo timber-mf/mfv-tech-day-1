@@ -41,6 +41,7 @@ export default function SignIn() {
           name: payload.sub || "",
           email: payload.sub || "",
           department: payload.sub || "",
+          token,
         });
       } else {
         alert("Login failed");

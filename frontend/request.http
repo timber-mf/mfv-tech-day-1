@@ -31,3 +31,7 @@ Content-Type: application/json
   "username": "billy@email.com",
   "password": "abc"
 }
+
+### get seats
+GET https://api.paat.party/api/seats?from=2024-01-30T07:52:31&to=2025-08-30T07:52:31
+

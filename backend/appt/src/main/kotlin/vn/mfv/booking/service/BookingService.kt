@@ -32,4 +32,12 @@ class BookingService(private val bookingRepository: BookingRepository, private v
         return null
     }
 
+    fun deleteBooking(id: Long): Boolean {
+        return if (bookingRepository.existsById(id)) {
+            bookingRepository.deleteById(id)
+            true
+        } else {
+            false
+        }
+    }
 }

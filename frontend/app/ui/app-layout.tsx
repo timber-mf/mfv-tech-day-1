@@ -76,11 +76,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           leftSection={<IconHandClick size="1.3rem" stroke={1.5} />}
         />
         <NavLink
-          href="/"
-          label="Check-In"
-          leftSection={<IconUserCheck size="1.3rem" stroke={1.5} />}
-        />
-        <NavLink
           href="/qr-list"
           label="QR List"
           leftSection={<IconQrcode size="1.3rem" stroke={1.5} />}

@@ -22,7 +22,7 @@ class AuthController(
         if (user == null) {
             throw Exception("User Not Found")
         } else {
-            if (user.password.equals(loginRequest.password)) {
+            if (!user.password.equals(loginRequest.password)) {
                 throw Exception("Wrong password")
             }
         }

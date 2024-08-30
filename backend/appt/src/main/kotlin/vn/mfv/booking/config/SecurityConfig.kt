@@ -26,9 +26,9 @@ class SecurityConfig {
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter(), OAuth2LoginAuthenticationFilter::class.java)
-            .oauth2Login {
-                it.defaultSuccessUrl("/home", true)
-            }
+//            .oauth2Login {
+//                it.defaultSuccessUrl("/home", true)
+//            }
         return http.build()
     }
 

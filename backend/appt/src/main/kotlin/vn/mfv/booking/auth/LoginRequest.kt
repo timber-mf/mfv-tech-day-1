@@ -1,4 +1,4 @@
-package com.example.demo
+package vn.mfv.booking.auth
 
 data class LoginRequest(
     val username: String,

@@ -36,11 +36,13 @@ export default function SignIn() {
       });
       if (res.ok) {
         const token = await res.text();
-        const payload = jwtDecode(token);
+        const payload = jwtDecode(token) as any;
         service.setUser({
-          name: payload.sub || "",
-          email: payload.sub || "",
+          name: payload.name || "",
+          email: payload.email || "",
+          userId: payload.userId || 1,
           department: payload.sub || "",
+          token,
         });
       } else {
         alert("Login failed");

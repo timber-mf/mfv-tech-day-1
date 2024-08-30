@@ -37,9 +37,11 @@ export default function SeatList() {
                 }}
               >
                 <Center>
+                  <Text mt="md">Seat {seat}</Text>
+                </Center>
+                <Center>
                   <QRCodeSVG value={seatLink} />
                 </Center>
-                <Text mt="md">Seat {seat}</Text>
               </Card>
             </Grid.Col>
           );

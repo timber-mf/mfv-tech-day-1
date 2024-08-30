@@ -80,18 +80,13 @@ export default function AppLayout({
       </AppShell.Header>
       <AppShell.Navbar p="md">
         <NavLink
-          href="/"
-          label="Home"
-          leftSection={<IconHome2 size="1.3rem" stroke={1.5} />}
-        />
-        <NavLink
           href="/seat-booking"
           label="Seat Booking"
           leftSection={<IconHandClick size="1.3rem" stroke={1.5} />}
         />
         <NavLink
           href="/qr-list"
-          label="QR List"
+          label="Seat List"
           leftSection={<IconQrcode size="1.3rem" stroke={1.5} />}
         />
       </AppShell.Navbar>

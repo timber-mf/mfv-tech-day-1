@@ -13,19 +13,34 @@ export type Service = {
   readonly removeTodo: (id: string) => void;
   readonly user: User | null;
   readonly setUser: (user: User | null) => void;
+  readonly postAuth: (
+    url: string,
+    data: any,
+  ) => Promise<{
+    res: Response;
+    json: any;
+  }>;
 };
 
 export type User = {
+  userId: number;
   name: string;
   email: string;
+  token: string;
   department: string;
 };
 
 export const Context = React.createContext<Service | null>(null);
 
+const getUserLocal = () => {
+  const userstr = localStorage.getItem("user");
+  const userLocal: any = userstr ? JSON.parse(userstr) : null;
+  return userLocal;
+};
+
 export function Provider(props: { children: React.ReactNode }) {
   const [todos, setTodos] = React.useState<readonly Todo[]>([]);
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(getUserLocal());
 
   const addTodo = (todo: Todo) => {
     setTodos((prev) => [todo, ...prev]);
@@ -46,13 +61,38 @@ export function Provider(props: { children: React.ReactNode }) {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
+  const postAuth = React.useCallback(
+    async (url: string, data: any) => {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      const json = await res.json();
+
+      return {
+        res,
+        json,
+      };
+    },
+    [user],
+  );
+
   const service: Service = {
     todos,
     addTodo,
     setChecked,
     removeTodo,
     user,
-    setUser,
+    setUser: (user) => {
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+    },
+    postAuth,
   };
   return <Context.Provider value={service}>{props.children}</Context.Provider>;
 }

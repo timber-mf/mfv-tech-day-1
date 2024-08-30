@@ -24,12 +24,6 @@ class BookingService(private val bookingRepository: BookingRepository, private v
     }
 
     fun bookSeat(seatId: Long, userId: Long, startTime: LocalDateTime, endTime: LocalDateTime, renewalFrequency: RenewalFrequency? = null): Booking? {
-        if (isSeatAvailable(seatId, startTime, endTime)) {
-            val seat = seatRepository.findById(seatId).orElse(null) ?: return null
-            val user = userRepository.findById(userId).orElse(null) ?: return null
-            val booking = Booking(seat = seat, user = user, startTime = startTime, endTime = endTime, renewalFrequency = renewalFrequency)
-            return bookingRepository.save(booking)
-        }
         // user can only book 1 seat in a period of time
         // Check if the user has any overlapping bookings
         val userBookings = getBookingsByUser(userId)
@@ -40,6 +34,14 @@ class BookingService(private val bookingRepository: BookingRepository, private v
             // User has an overlapping booking, return null or handle accordingly
             throw BusinessException("OVERLAPPING_BOOKING", "User has an overlapping booking")
         }
+        
+        if (isSeatAvailable(seatId, startTime, endTime)) {
+            val seat = seatRepository.findById(seatId).orElse(null) ?: return null
+            val user = userRepository.findById(userId).orElse(null) ?: return null
+            val booking = Booking(seat = seat, user = user, startTime = startTime, endTime = endTime, renewalFrequency = renewalFrequency)
+            return bookingRepository.save(booking)
+        }
+
 
         throw BusinessException("SEAT_NOT_AVAILABLE", "Seat is not available")
     }

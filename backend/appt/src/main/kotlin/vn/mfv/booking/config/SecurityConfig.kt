@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +22,7 @@ class SecurityConfig {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
+            .cors { it.configurationSource(corsConfigurationSource()) }
             .authorizeHttpRequests { authz ->
                 authz
                     .requestMatchers("/api/**","/auth/**", "/swagger-ui**").permitAll()
@@ -30,6 +33,17 @@ class SecurityConfig {
 //                it.defaultSuccessUrl("/home", true)
 //            }
         return http.build()
+    }
+
+    @Bean
+    fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.allowedOrigins = listOf("*")
+        config.allowedMethods = listOf("*")
+        config.allowedHeaders = listOf("*")
+        source.registerCorsConfiguration("/**", config)
+        return source
     }
 
     @Bean

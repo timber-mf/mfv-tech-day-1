@@ -4,6 +4,7 @@ import vn.mfv.booking.entity.RenewalFrequency
 import vn.mfv.booking.repository.SeatRepository
 import org.springframework.stereotype.Service
 import vn.mfv.booking.entity.Booking
+import vn.mfv.booking.exception.BusinessException
 import vn.mfv.booking.repository.BookingRepository
 import vn.mfv.booking.repository.UserRepository
 import java.time.LocalDateTime
@@ -29,7 +30,18 @@ class BookingService(private val bookingRepository: BookingRepository, private v
             val booking = Booking(seat = seat, user = user, startTime = startTime, endTime = endTime, renewalFrequency = renewalFrequency)
             return bookingRepository.save(booking)
         }
-        return null
+        // user can only book 1 seat in a period of time
+        // Check if the user has any overlapping bookings
+        val userBookings = getBookingsByUser(userId)
+        val hasOverlappingBooking = userBookings.any { booking ->
+            (startTime.isBefore(booking.endTime) && endTime.isAfter(booking.startTime))
+        }
+        if (hasOverlappingBooking) {
+            // User has an overlapping booking, return null or handle accordingly
+            throw BusinessException("OVERLAPPING_BOOKING", "User has an overlapping booking")
+        }
+
+        throw BusinessException("SEAT_NOT_AVAILABLE", "Seat is not available")
     }
 
     fun deleteBooking(id: Long): Boolean {

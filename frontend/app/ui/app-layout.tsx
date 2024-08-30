@@ -21,13 +21,24 @@ import {
   IconHome2,
   IconHandClick,
   IconUserCheck,
-  IconQrcode
+  IconQrcode,
 } from "@tabler/icons-react";
+import { Session } from "next-auth";
+import SignIn from "@/app/ui/sign-in";
+import { Todo } from "../lib/todo";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({
+  children,
+}: {
+  children: React.ReactNode;
+  session: Session | null;
+}) {
   const [opened, { toggle }] = useDisclosure();
   const { data: session, status } = useSession();
-
+  const service = Todo.useService();
+  if (!session && !service.user) {
+    return <SignIn />;
+  }
   return (
     <AppShell
       header={{ height: 60 }}
@@ -55,7 +66,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   leftSection={
                     <IconLogout style={{ width: rem(14), height: rem(14) }} />
                   }
-                  onClick={() => signOut()}
+                  onClick={() => {
+                    signOut();
+                    service.setUser(null);
+                  }}
                 >
                   Sign Out
                 </Menu.Item>

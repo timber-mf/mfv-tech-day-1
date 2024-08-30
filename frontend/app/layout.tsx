@@ -6,9 +6,8 @@ import { auth } from "@/app/lib/auth";
 
 import "./globals.css";
 import "@mantine/core/styles.css";
-import '@mantine/dates/styles.css';
+import "@mantine/dates/styles.css";
 
-import SignIn from "@/app/ui/sign-in";
 import AppLayout from "@/app/ui/app-layout";
 
 export const metadata: Metadata = {
@@ -30,7 +29,7 @@ export default async function RootLayout({
       </head>
       <body className={openSans.className}>
         <Providers>
-          {session ? <AppLayout>{children}</AppLayout> : <SignIn />}
+          <AppLayout session={session}>{children}</AppLayout>
         </Providers>
       </body>
     </html>

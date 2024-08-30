@@ -11,12 +11,21 @@ export type Service = {
   readonly addTodo: (todo: Todo) => void;
   readonly setChecked: (id: string, checked: boolean) => void;
   readonly removeTodo: (id: string) => void;
+  readonly user: User | null;
+  readonly setUser: (user: User | null) => void;
+};
+
+export type User = {
+  name: string;
+  email: string;
+  department: string;
 };
 
 export const Context = React.createContext<Service | null>(null);
 
 export function Provider(props: { children: React.ReactNode }) {
   const [todos, setTodos] = React.useState<readonly Todo[]>([]);
+  const [user, setUser] = React.useState<User | null>(null);
 
   const addTodo = (todo: Todo) => {
     setTodos((prev) => [todo, ...prev]);
@@ -42,6 +51,8 @@ export function Provider(props: { children: React.ReactNode }) {
     addTodo,
     setChecked,
     removeTodo,
+    user,
+    setUser,
   };
   return <Context.Provider value={service}>{props.children}</Context.Provider>;
 }

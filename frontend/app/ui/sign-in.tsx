@@ -12,6 +12,9 @@ import {
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { Todo } from "../lib/todo";
+import { jwtDecode } from "jwt-decode";
 
 type LoginForm = {
   username: string;
@@ -19,6 +22,31 @@ type LoginForm = {
 };
 
 export default function SignIn() {
+  const { register, handleSubmit } = useForm<LoginForm>();
+  const service = Todo.useService();
+
+  const onSubmit = handleSubmit((data) => {
+    (async function () {
+      const res = await fetch("https://api.paat.party/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        const token = await res.text();
+        const payload = jwtDecode(token);
+        service.setUser({
+          name: payload.sub || "",
+          email: payload.sub || "",
+          department: payload.sub || "",
+        });
+      } else {
+        alert("Login failed");
+      }
+    })();
+  });
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
@@ -30,11 +58,21 @@ export default function SignIn() {
         <Container>
           <Space h="lg" />
           <Center className={"flex-col"}>
-            <TextInput label="Username" w="300px" />
+            <TextInput label="Username" w="300px" {...register("username")} />
             <Space h="xs" />
-            <TextInput label="Password" w="300px" />
+            <TextInput
+              label="Password"
+              w="300px"
+              type="password"
+              {...register("password")}
+            />
             <Space h="lg" />
-            <Button variant="outline" color="black" w="300px">
+            <Button
+              variant="outline"
+              color="black"
+              w="300px"
+              onClick={onSubmit}
+            >
               Login
             </Button>
           </Center>

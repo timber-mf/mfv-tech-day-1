@@ -19,9 +19,20 @@ class SeatService(
     fun getAllSeats(from: LocalDateTime, to: LocalDateTime): List<SeatDTO> {
         //get all seats and return status of seat based on booking
         val seats = seatRepository.findAll()
+        val now = LocalDateTime.now()
         val bookings = bookingRepository.findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(from, to)
         return seats.map { seat ->
-            val status = if (bookings.any { it.seat.id == seat.id }) SeatStatus.BOOKED else SeatStatus.AVAILABLE
+            val booking = bookings.find { it.seat.id == seat.id }
+//            val status = if (bookings.any { it.seat.id == seat.id }) SeatStatus.BOOKED else SeatStatus.AVAILABLE
+            val status = if (booking != null) {
+                if (booking.checkedIn || booking.startTime.plusMinutes(10).isAfter(now)) {
+                    SeatStatus.BOOKED
+                } else {
+                    SeatStatus.AVAILABLE
+                }
+            } else {
+                SeatStatus.AVAILABLE
+            }
             SeatDTO(seat.id!!, seat.name, seat.qrCode, status)
         }
     }

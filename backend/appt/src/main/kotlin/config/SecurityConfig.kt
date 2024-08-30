@@ -18,6 +18,7 @@ class SecurityConfig {
                     .requestMatchers("/api/**", "/login**", "/swagger-ui**").permitAll()
                     .anyRequest().authenticated()
             }
+
             .oauth2Login {
                 it.defaultSuccessUrl("/home", true)
             }

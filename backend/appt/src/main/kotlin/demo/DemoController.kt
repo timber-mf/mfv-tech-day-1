@@ -49,6 +49,7 @@ class DemoController(private val service: EntityService) {
 
     private fun getAttributeUser(oauth2User: OAuth2User, model: Model) {
         model.addAttribute("name", oauth2User.getAttribute<String>("name"))
+        model.addAttribute("email", oauth2User.getAttribute<String>("email"))
         model.addAttribute("id", oauth2User.getAttribute<String>("sub"))
     }
 

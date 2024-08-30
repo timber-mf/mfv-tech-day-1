@@ -1,7 +1,6 @@
 package vn.mfv.booking.entity
 
 import jakarta.persistence.*
-import mfv.booking.entity.User
 import java.time.LocalDateTime
 
 @Entity

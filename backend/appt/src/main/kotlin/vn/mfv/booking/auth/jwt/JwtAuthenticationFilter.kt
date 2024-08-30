@@ -28,8 +28,15 @@ class JwtAuthenticationFilter(private val secretKey: String) : OncePerRequestFil
                 .body
             val username = claims.subject
             // Create an Authentication object and set it in the SecurityContext
+            val userId = claims["userId"] as String
+            val email = claims["email"] as String
+            val department = claims["department"] as String
+            // Create an Authentication object and set it in the SecurityContext
             val authentication = UsernamePasswordAuthenticationToken(username, null, emptyList())
+            authentication.details = mapOf("userId" to userId, "email" to email, "department" to department)
             SecurityContextHolder.getContext().authentication = authentication
+//            val authentication = UsernamePasswordAuthenticationToken(username, null, emptyList())
+//            SecurityContextHolder.getContext().authentication = authentication
         } catch (e: Exception) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token")
             return        }

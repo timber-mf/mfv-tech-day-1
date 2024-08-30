@@ -12,7 +12,8 @@ data class User(
     val googleId: String,
     val name: String,
     val email: String,
-    val password: String
+    val password: String,
+    var department: String
 ) {
-    constructor() : this(id = 0, googleId = "", name = "", email = "", password= "")
+    constructor() : this(id = 0, googleId = "", name = "", email = "", password= "", department = "")
 }

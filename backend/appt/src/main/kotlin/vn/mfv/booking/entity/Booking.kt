@@ -20,8 +20,9 @@ data class Booking(
     val endTime: LocalDateTime,
 
     @Enumerated(EnumType.STRING)
-    val renewalFrequency: RenewalFrequency? = null
-
+    val renewalFrequency: RenewalFrequency? = null,
+    var checkedIn: Boolean = false,
+    var checkInTime: LocalDateTime? = null,
 ) {
     constructor() : this(id = 0, seat = Seat(), user = User(), startTime = LocalDateTime.now(), endTime = LocalDateTime.now())
 }

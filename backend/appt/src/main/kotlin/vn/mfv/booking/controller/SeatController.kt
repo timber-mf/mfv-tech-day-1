@@ -2,6 +2,7 @@ package vn.mfv.booking.controller
 
 import vn.mfv.booking.model.SeatDTO
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -27,4 +28,14 @@ class SeatController(private val seatService: SeatService) {
     //delete all seats
     @GetMapping("/delete")
     fun deleteAllSeats() = seatService.deleteAllSeats()
+
+    @PostMapping("/checkin")
+    fun checkIn(@RequestParam seatId: Long, @RequestParam userId: Long): Boolean {
+        return seatService.checkIn(seatId, userId)
+    }
+
+    @PostMapping("/release")
+    fun releaseUnCheckedInSeats() {
+        seatService.releaseUnCheckedInSeats()
+    }
 }

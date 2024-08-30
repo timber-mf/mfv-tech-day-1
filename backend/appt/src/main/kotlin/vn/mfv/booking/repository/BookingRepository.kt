@@ -7,4 +7,5 @@ import java.time.LocalDateTime
 interface BookingRepository : JpaRepository<Booking, Long> {
     fun findBySeatIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(seatId: Long, startTime: LocalDateTime, endTime: LocalDateTime): List<Booking>
     fun findByUserId(userId: Long): List<Booking>
+    fun findByStartTimeLessThanEqualAndEndTimeGreaterThanEqual(from: LocalDateTime, to: LocalDateTime): List<Booking>
 }

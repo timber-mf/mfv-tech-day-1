@@ -25,10 +25,14 @@ class SeatService(
             val booking = bookings.find { it.seat.id == seat.id }
 //            val status = if (bookings.any { it.seat.id == seat.id }) SeatStatus.BOOKED else SeatStatus.AVAILABLE
             val status = if (booking != null) {
-                if (booking.checkedIn || booking.startTime.plusMinutes(10).isAfter(now)) {
+                if (booking.checkedIn) {
                     SeatStatus.BOOKED
                 } else {
-                    SeatStatus.AVAILABLE
+                    if (booking.startTime.plusMinutes(10).isAfter(now)) {
+                        SeatStatus.AVAILABLE
+                    } else {
+                        SeatStatus.BOOKED
+                    }
                 }
             } else {
                 SeatStatus.AVAILABLE

@@ -6,9 +6,63 @@ import {
   useControls,
 } from "react-zoom-pan-pinch";
 
-import Seat from "@/app/ui/seat";
+import Seat, { SeatStatus } from "@/app/ui/seat";
 import SeatBookingControlBar from "@/app/ui/seat-booking-control-bar";
 import { Button } from "@mantine/core";
+import { useState, useEffect } from "react";
+
+// enum class SeatStatus {
+//   AVAILABLE, BOOKED
+// }
+
+interface Seat {
+  number: number;
+  width: number;
+  height: number;
+  seatStatus?: SeatStatus;
+}
+
+interface Desk {
+  id: string;
+  rotate: string;
+  x: number;
+  y: number;
+  seats: Seat[];
+}
+
+interface SeatFromApi {
+  id: string;
+  name: string;
+  qrCode: string;
+  status: string;
+}
+
+const seatsFromApi = [
+  { id: "1", name: "1", qrCode: "QR1", status: "AVAILABLE" },
+  { id: "2", name: "2", qrCode: "QR2", status: "BOOKED" },
+  { id: "3", name: "3", qrCode: "QR2", status: "BOOKED" },
+  { id: "4", name: "4", qrCode: "QR2", status: "BOOKED" },
+  { id: "5", name: "5", qrCode: "QR2", status: "BOOKED" },
+  { id: "6", name: "6", qrCode: "QR2", status: "BOOKED" },
+  { id: "7", name: "7", qrCode: "QR2", status: "BOOKED" },
+  { id: "8", name: "8", qrCode: "QR2", status: "BOOKED" },
+];
+
+function mapSeatsWithStatus(
+  desks: Desk[],
+  seatsFromApi: SeatFromApi[],
+): Desk[] {
+  const seatMap = new Map(seatsFromApi.map((seat) => [seat.name, seat.status]));
+
+  return desks.map((desk) => ({
+    ...desk,
+    seats: desk.seats.map((seat) => ({
+      ...seat,
+      seatStatus: (seatMap.get(seat.number.toString()) ||
+        "NOT_INITIALIZED") as SeatStatus,
+    })),
+  }));
+}
 
 const DESKS = [
   // row 1
@@ -659,6 +713,14 @@ const Controls = () => {
 };
 
 export default function OfficeMap() {
+  const [desks, setDesks] = useState(mapSeatsWithStatus(DESKS, seatsFromApi));
+
+  // useEffect(() => {
+  //
+  // }, []);
+
+  console.log(desks);
+
   return (
     <div>
       <div>
@@ -681,7 +743,7 @@ export default function OfficeMap() {
                     width: "1000px",
                   }}
                 />
-                {DESKS.map((row) => (
+                {desks.map((row) => (
                   <div
                     key={row.id}
                     style={{
@@ -699,6 +761,7 @@ export default function OfficeMap() {
                         width={seat.width}
                         height={seat.height}
                         seatNumber={seat.number}
+                        status={seat.seatStatus as SeatStatus}
                       />
                     ))}
                   </div>
